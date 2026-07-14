@@ -16,6 +16,13 @@ const registerUser = async(req , res) => {
             });
         }
     
+        if(results.length > 0)
+        {
+            return res.status(400).json({
+                success: false,
+                message: "Email already exists"
+            });
+        }
         const hashedPassword = await bcrypt.hash(password, 10);
 
         User.createUser(name , email , hashedPassword, (err,result) => {
@@ -43,6 +50,7 @@ const registerUser = async(req , res) => {
 const jwt = require("jsonwebtoken");
 
 const loginUser = (req, res) => {
+    console.log("LOGIN ROUTE HIT");
     const {email, password} =req.body;
     User.findUserByEmail(email,async (err, results) => {
 
@@ -52,14 +60,7 @@ const loginUser = (req, res) => {
                 message:"Email and password required"
             });
         }
-        if(results.length>0)
-        {
-            return res.status(400).json({
-                success: false, 
-                message:"Email already exists"
-            });
-
-        }
+        
         if(err)
         {
             return res.status(500).json({

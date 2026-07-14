@@ -1,8 +1,12 @@
+const cors = require("cors");
 const express = require("express");
 const app = express();
 require("dotenv").config();
 require("./config/db");
 const PORT = process.env.PORT || 5000;
+
+//using teh file of teh cores because different ports la
+app.use(cors());
 
 //enabel json 
 app.use(express.json());
@@ -45,6 +49,9 @@ const chectoutRoutes = require("./routes/checkoutRoutes");
 
 const adminRoutes =  require("./routes/adminRoutes");
 
+const errorhandler = require("./middleware/errorMiddleware");
+const errorHandler = require("./middleware/errorMiddleware");
+
 //using the products site
 
 
@@ -55,6 +62,7 @@ app.use("/api/products",productRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/checkout", chectoutRoutes);
 app.use("/api/admin", adminRoutes);
+app.use(errorHandler);;
 
 
 
