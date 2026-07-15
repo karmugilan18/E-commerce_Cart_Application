@@ -20,6 +20,17 @@ function Products() {
     }
   };
 
+  const addToCart = async (productId) => {
+    try {
+      const token = localStorage.getItem("token");
+      const res = await API.post("cart/add" , { productId , quantity :1},{headers : {Authorization : `Bearer ${token}`}});
+      console.log("Added product :", productId);
+
+    } catch (error) {
+      alert(error.response?.data?.message || "Failed to add product ");
+
+    }
+  };
   return (
     <div>
       <h1>Products</h1>
@@ -31,6 +42,11 @@ function Products() {
           <p>{product.description}</p>
 
           <h4>₹ {product.price}</h4>
+
+          <button onClick={() => addToCart(product.id)}>
+
+            Add To Cart
+          </button>
 
           <hr />
         </div>
