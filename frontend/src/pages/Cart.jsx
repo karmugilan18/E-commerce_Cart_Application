@@ -27,6 +27,28 @@ function Cart() {
     }
   };
 
+  const removeItem = async(cartId) => {
+    try {
+      const token = localStorage.getItem("token");
+      const res = await API.delete(`/cart/${cartId}`, {
+        headers : {
+          Authorization : `Bearer ${token}`
+        }
+      });
+
+      alert(res.data.message);
+
+      fetchCart();
+
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const totalAmount = cartItems.reduce ( 
+    (total , item ) => total+ item.price * item.quantity,0
+  );
+
   return (
     <div>
 
@@ -34,7 +56,7 @@ function Cart() {
 
       {cartItems.map((item) => (
 
-        <div key={item.product_id}>
+        <div key={item.id}>
 
           <h3>{item.name}</h3>
 
@@ -44,11 +66,19 @@ function Cart() {
 
           <p>Total :₹{item.price * item.quantity} </p> 
 
-          <hr />
+          <button onClick = {() => removeItem(item.id)}>
+            REMOVE
+          </button>
 
+          <hr />
+          
         </div>
+        
 
       ))}
+      <h2>Grand Total : ₹{totalAmount}</h2>
+
+      <h2>Items : {cartItems.length}</h2>
 
     </div>
   );

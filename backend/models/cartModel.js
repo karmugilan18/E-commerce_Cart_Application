@@ -25,7 +25,14 @@ const removeCartItem = (cartId, callback ) => {
 
 const getCartByUser = (userId, callback) =>
 {
-    const sql = `select c.product_id, c.quantity , p.price from cart c join products p on c.product_id =p.id where c.user_id=? `;
+    const sql =`SELECT c.id,
+       c.product_id,
+       c.quantity,
+       p.name,
+       p.price
+       FROM cart c
+       JOIN products p ON c.product_id = p.id
+       WHERE c.user_id = ?`;
 
     db.query(sql , [userId], callback);
 };
@@ -36,7 +43,20 @@ const clearCart = (userId , callback )=> {
 
 };
 
+const findCartItem = ( userId , productId , callback ) => {
+        const sql  = `select  * from cart where user_id = ? and product_id = ?`;
+        db.query(sql , [userId , productId] , callback);
+
+};
+ 
+const updateQuantity = ( userId, productId , callback ) => {
+    const sql = `update cart set quantity = quantity+1 where user_id =? and product_id = ?`;
+    db.query(sql , [userId , productId], callback);
+
+};
 
 
 
-module.exports = { addtoCart , getCartByUser , removeCartItem,clearCart};
+
+
+module.exports = { addtoCart , getCartByUser , removeCartItem,clearCart,findCartItem, updateQuantity};

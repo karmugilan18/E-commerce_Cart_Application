@@ -9,27 +9,72 @@ const addItemToCart = (req,res) => {
         productId , quantity 
     } = req.body;
 
-    Cart.addtoCart( userId, productId , quantity , (err, result) => {
-        if(!productId || !quantity){
-            return res.status(400).json({
-                success:false,
-                message:"ProductId and Quantity required"
-            });
-        }
-        if(err) {
+    Cart.findCartItem(
+    userId,
+    productId,
+    (err, results) => {
 
-            return res.status(500).json ({
-                success: false,
-                message : err.message
+        if(err){
+            return res.status(500).json({
+                success:false,
+                message:err.message
             });
-            
         }
-        res.status(201).json ({
-                success : true ,
-                message: "Product added to cart"
-        });
-    });
+
+        if(results.length > 0){
+
+            Cart.updateQuantity(
+                userId,
+                productId,
+                (err) => {
+
+                    if(err){
+                        return res.status(500).json({
+                            success:false,
+                            message:err.message
+                        });
+                    }
+
+                    return res.json({
+                        success:true,
+                        message:"Quantity Updated"
+                    });
+
+                }
+            );
+
+        } else {
+
+            Cart.addtoCart(
+                userId,
+                productId,
+                quantity,
+                (err)=>{
+
+                    if(err){
+                        return res.status(500).json({
+                            success:false,
+                            message:err.message
+                        });
+                    }
+
+                    return res.json({
+                        success:true,
+                        message:"Added To Cart"
+                    });
+
+                }
+            );
+
+        }
+
+    }
+);
+      
 };
+
+
+
 
 const getCart = (req , res ) => {
     const userId = req.user.id ;
