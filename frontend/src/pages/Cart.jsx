@@ -1,7 +1,11 @@
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import API from "../api/axios";
 
 function Cart() {
+  const navigate = useNavigate();
+
+  
 
   const [cartItems, setCartItems] = useState([]);
 
@@ -45,6 +49,31 @@ function Cart() {
     }
   };
 
+  const handleCheckout = async () =>{
+    try {
+      const token = localStorage.getItem("token");
+      const res = await API.post("/orders/checkout", {} , {
+        headers : {
+          Authorization : `Bearer ${token}`
+        }
+      });
+      alert(" Thank you for your purchase");
+
+      navigate("/orders");
+
+
+      
+
+
+    } catch (error) 
+    {
+      console.log(error);
+
+      alert( error.response?.data?.message || "CheckOut Failed");
+
+    }
+  };
+
   const totalAmount = cartItems.reduce ( 
     (total , item ) => total+ item.price * item.quantity,0
   );
@@ -79,9 +108,12 @@ function Cart() {
       <h2>Grand Total : ₹{totalAmount}</h2>
 
       <h2>Items : {cartItems.length}</h2>
-
+      <button onClick={handleCheckout}>
+        Checkout
+      </button>
     </div>
   );
+
 }
 
 export default Cart;
