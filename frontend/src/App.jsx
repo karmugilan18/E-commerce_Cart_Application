@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
-
+import ProtectedRoute from "./components/ProtectedRoute";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Products from "./pages/Products";
@@ -16,9 +16,9 @@ function App() {
         <Route path="/" element={<Products />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/orders" element={<Orders />} />
-        <Route path="/admin" element={<Admin />} />
+        <Route path="/cart" element={<ProtectedRoute> <Cart /> </ProtectedRoute>} />
+        <Route path="/orders" element={ <ProtectedRoute> <Orders /> </ProtectedRoute>} />
+        <Route path="/admin" element={<ProtectedRoute><Admin/></ProtectedRoute>} />
       </Routes>
      
     </BrowserRouter>
