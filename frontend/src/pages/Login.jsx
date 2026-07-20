@@ -1,6 +1,7 @@
 import { useState } from "react";
 import API from "../api/axios";
 
+import "../styles/Login.css";
 
 function Login() {
     const [email , setEmail ] = useState("");
@@ -28,7 +29,7 @@ function Login() {
         }
     };
     return (
-        <div>
+        <div className = "login-container ">
             <h1> Login </h1>
 
             <form onSubmit={handleLogin}>

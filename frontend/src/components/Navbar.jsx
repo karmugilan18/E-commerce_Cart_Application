@@ -1,4 +1,5 @@
 import { Link , useNavigate } from "react-router-dom";
+import "../styles/Navbar.css";
 
 function Navbar()
 {
@@ -12,7 +13,7 @@ function Navbar()
 
     };
     return (
-        <div>
+        <div className="navbar">
             <Link to ="/"> Products</Link>
 
             {" | "}
