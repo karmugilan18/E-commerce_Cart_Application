@@ -3,6 +3,7 @@ import API from "../api/axios";
 
 function Products() {
   const [products, setProducts] = useState([]);
+  const [search , setSearch] = useState("");
 
   useEffect(() => {
     fetchProducts();
@@ -31,11 +32,16 @@ function Products() {
 
     }
   };
+  const filteredProducts = products.filter((product) => product.name.toLowerCase().includes(search.toLowerCase()));
+
   return (
     <div>
       <h1>Products</h1>
-
-      {products.map((product) => (
+      <input type  = "text" placeholder="Search Products...." value = {search} onChange={(e) => setSearch(e.target.value)} />
+      {filteredProducts.length === 0 && (
+        <p> No Products found </p>
+      )}
+      {filteredProducts.map((product) => (
         <div key={product.id}>
           <h3>{product.name}</h3>
 
