@@ -4,6 +4,10 @@ import API from "../api/axios";
 function Products() {
   const [products, setProducts] = useState([]);
   const [search , setSearch] = useState("");
+  const [category , setCategory] = useState("");
+  const [maxPrice , setMaxPrice] = useState("");
+  
+
 
   useEffect(() => {
     fetchProducts();
@@ -32,7 +36,16 @@ function Products() {
 
     }
   };
-  const filteredProducts = products.filter((product) => product.name.toLowerCase().includes(search.toLowerCase()));
+  const filteredProducts = products.filter((product) => {
+    const matchesSearch = product.name.toLowerCase().includes(search.toLowerCase());
+
+    const matchesCategory = category === "" || product.category === category ;
+
+    const matchesPrice = maxPrice === "" || Number(product.price) <= Number(maxPrice);
+
+    return matchesSearch && matchesCategory && matchesPrice;
+  });
+  
 
   return (
     <div>
@@ -41,6 +54,13 @@ function Products() {
       {filteredProducts.length === 0 && (
         <p> No Products found </p>
       )}
+      <select  value = {category} onChange = {(e) => setCategory(e.target.value)} >
+        <option value = "">ALL Categories</option>
+        <option value = "electronics">Electronics</option>
+        <option value = "accessories ">Accessories</option>
+      </select>
+      <input type = "number" placeholder="Maximum Price" value = {maxPrice} onChange={(e) => setMaxPrice(e.target.value)} />
+
       {filteredProducts.map((product) => (
         <div key={product.id}>
           <h3>{product.name}</h3>
