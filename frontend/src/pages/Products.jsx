@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import API from "../api/axios";
+import { Link } from "react-router-dom";
 
 function Products() {
   const [products, setProducts] = useState([]);
@@ -58,7 +59,9 @@ function Products() {
 
       {filteredProducts.map((product) => (
         <div key={product.id}>
+          <Link to={`/products/${product.id}`}>
           <h3>{product.name}</h3>
+          </Link>
 
           <p>{product.description}</p>
 

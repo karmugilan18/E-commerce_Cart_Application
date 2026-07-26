@@ -31,6 +31,29 @@ function Cart() {
     }
   };
 
+  const updateQuantity = async (cartId, newQuantity) => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const res = await API.put(`/cart/${cartId}` , {
+        quantity : newQuantity
+      } , {
+        headers : {
+          Authorization : `Bearer ${token}`
+        }
+      });
+
+      console.log(res.data);
+
+      fetchCart();
+
+      
+    } catch (error) {
+      console.log(error);
+      alert(error.response?.data?.message || "Failed to update quantity ");
+    }
+  };
+
   const removeItem = async(cartId) => {
     try {
       const token = localStorage.getItem("token");
@@ -90,6 +113,11 @@ function Cart() {
           <h3>{item.name}</h3>
 
           <p>Price: ₹{item.price}</p>
+          <div>
+            <button onClick = {() => updateQuantity(item.id, Math.max(1,item.quantity-1))} > -</button>
+            <span> {item.quantity} </span>
+            <button onClick = {() => updateQuantity(item.id, item.quantity+1)} > +</button>
+          </div>
 
           <p>Quantity: {item.quantity}</p>
 

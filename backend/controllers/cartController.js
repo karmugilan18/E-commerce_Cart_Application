@@ -115,6 +115,34 @@ const removeItem = (req, res) => {
     });
 }
 
+const updateCartItem = (req, res) => {
+    const cartId = req.params.id ;
+
+    const { quantity }  = req.body ;
+    if( quantity < 1)
+    {
+        return res.status(400).json({
+            success: true,
+            message: "Quantity must be atleast 1 "
+        });
+
+    }
+
+    Cart.updateCartItem(cartId, quantity , (err) => {
+        if(err) {
+            return res.status(500).json({
+                success: true,
+                message : err.message
+            });
+
+        }
+        res.json({
+            success: true,
+            message : "Cart Quantity updated"
+        });
+    });
+};
+
 module.exports = {
-    addItemToCart, getCart, removeItem
+    addItemToCart, getCart, removeItem , updateCartItem
 };

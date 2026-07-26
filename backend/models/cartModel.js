@@ -55,8 +55,16 @@ const updateQuantity = ( userId, productId , callback ) => {
 
 };
 
+const updateCartItem = (cartId, quantity , callback ) => {
+    const sql = `UPDATE cart SET quantity =? WHERE id = ?`;
+
+    db.query(sql, [quantity , cartId], callback);
+
+};
 
 
 
 
-module.exports = { addtoCart , getCartByUser , removeCartItem,clearCart,findCartItem, updateQuantity};
+
+
+module.exports = { addtoCart , getCartByUser , removeCartItem,clearCart,findCartItem, updateQuantity , updateCartItem};
