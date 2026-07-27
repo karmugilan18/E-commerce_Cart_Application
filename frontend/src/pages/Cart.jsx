@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate , Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import API from "../api/axios";
 
@@ -105,34 +105,41 @@ function Cart() {
     <div>
 
       <h1>My Cart</h1>
+      {cartItems.length === 0 ? (
+        <div> 
+          <h2>Your Cart is Empty </h2>
+          <p>Start Shopping and  add some product </p>
+          <Link to = "/" >
+          <button>Continue Shopping </button>
+          </Link>
+        </div>
+      ) : (
+        cartItems.map((item)  => (
+          <div key = {item.id}>
+            <h3>{item.name}</h3>
 
-      {cartItems.map((item) => (
-
-        <div key={item.id}>
-
-          <h3>{item.name}</h3>
-
-          <p>Price: ₹{item.price}</p>
+            <p>Price :₹{item.price} </p>
           <div>
-            <button onClick = {() => updateQuantity(item.id, Math.max(1,item.quantity-1))} > -</button>
-            <span> {item.quantity} </span>
-            <button onClick = {() => updateQuantity(item.id, item.quantity+1)} > +</button>
-          </div>
-
-          <p>Quantity: {item.quantity}</p>
-
-          <p>Total :₹{item.price * item.quantity} </p> 
-
-          <button onClick = {() => removeItem(item.id)}>
-            REMOVE
+          <button onClick = {() => updateQuantity(item.id, Math.max(1, item.quantity -1))}>
+            -
           </button>
 
-          <hr />
-          
-        </div>
-        
+          <span> {item.quantity}</span>
 
-      ))}
+          <button onClick = {() => updateQuantity(item.id , item.quantity+1)}>
+            +
+          </button>
+          </div>
+          <p> 
+            Total :₹{item.price * item.quantity} 
+          </p>
+          <button onClick={() => removeItem(item.id)}>
+            Remove
+          </button>
+          <hr/>
+          </div>
+        ))
+      )}
       <h2>Grand Total : ₹{totalAmount}</h2>
 
       <h2>Items : {cartItems.length}</h2>
