@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState ,Link } from "react";
+
 import API from "../api/axios";
 function Orders() {
 
@@ -31,7 +32,9 @@ function Orders() {
 
       {orders.map((order) => (
         <div key={order.id}>
-          <h3>Order #{order.id}</h3>
+          <Link to = {`/orders/${order.id}`}>
+            <h3>Order #{order.id}</h3>
+          </Link>
           <p>Total: ₹{order.total_amount}</p>
           <p>Date: {order.created_at}</p>
           <hr />
