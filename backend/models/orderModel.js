@@ -16,8 +16,16 @@ const getOrderByUser = (userId , callback) => {
 
 };
 
+const getOrderDetails   = (orderId , callback ) => {
+    const sql = `select o.id,o.total_amount,o.created_at,p.name,p.price,oi.quantity from orders o join order_items oi on o.id = oi.order_id join products p on oi.product_id = p.id where o.id = ?`;
+
+
+    db.query(sql ,[orderId], callback);
+};
+
 
 module.exports = {
     createOrder,
-    getOrderByUser
+    getOrderByUser,
+    getOrderDetails 
 };
