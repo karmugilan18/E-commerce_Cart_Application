@@ -55,6 +55,14 @@ function  ProductDetails() {
 
     return (
         <div>
+            <img src = {`/images/${product.image_url}`}
+                 alt = {product.name}
+                 width = "300"
+                 onError = {(e) => {
+                    e.target.src = "/images/no-image.png";
+                    
+                 }}
+            />
             <h1>{product.name}</h1>
             <p>{product.description}</p>
             <h2>₹ {product.price}</h2>

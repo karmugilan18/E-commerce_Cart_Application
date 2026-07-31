@@ -59,6 +59,11 @@ function Products() {
 
       {filteredProducts.map((product) => (
         <div key={product.id}>
+          <img src = {`/images/${product.image_url}`}
+               alt = {product.name}
+               width = "200"
+               heigth = "200"
+          />
           <Link to={`/products/${product.id}`}>
           <h3>{product.name}</h3>
           </Link>
