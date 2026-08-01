@@ -31,11 +31,23 @@ const deleteProduct = (id , callback) =>
 
 }
 
+//add a pagination function 
+const getProducts = (page, limit , callback) => {
+    const offset = (page-1)*limit;
+
+
+    const sql = 'SELECT * from products LIMIT ? OFFSET ?';
+
+    db.query(sql , [Number(limit), Number(offset)] , callback )
+};
+
+
 module.exports = {
     getAllproducts,
     getProductById,
     createProduct,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    getProducts
 
 };

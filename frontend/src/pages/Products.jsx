@@ -5,18 +5,19 @@ import { Link } from "react-router-dom";
 function Products() {
   const [products, setProducts] = useState([]);
   const [search , setSearch] = useState("");
-  
+  const [page , setPage] = useState(1);
+
   const [maxPrice , setMaxPrice] = useState("");
   
 
 
   useEffect(() => {
     fetchProducts();
-  }, []);
+  }, [page]);
 
   const fetchProducts = async () => {
     try {
-      const res = await API.get("/products");
+      const res = await API.get(`/products?page=${page}&limit=6`);
       console.log(res.data.products);
       
 
@@ -76,10 +77,28 @@ function Products() {
 
             Add To Cart
           </button>
+          
 
           <hr />
+
+
         </div>
       ))}
+      <button
+        disabled = {page === 1}
+        onClick = {() => setPage(page -1)}
+      >
+        Previous
+      </button>
+
+      <span> Page {page}</span>
+      <button
+        
+        onClick = {() => setPage(page -1)}
+      >
+        Next
+      </button>
+
     </div>
   );
 }

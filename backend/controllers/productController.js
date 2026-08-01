@@ -20,7 +20,10 @@ module.exports = {getProducts ,  getproductById};
 const Product = require("../models/productModel");
 
 const getProducts = (req , res) => {
-    Product.getAllproducts((err, results) => {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) ||6;
+    
+    Product.getProducts(page , limit, (err, results) => {
         if(err) {
             return res.status(500).json ({
                 success : false,
@@ -29,8 +32,9 @@ const getProducts = (req , res) => {
         }
         res.json({
             success : true,
-            count: results.length,
-            products: results
+            page:1,
+            limit:6,
+            products : results
         });
     });
 };
