@@ -66,6 +66,6 @@ function OrderDetails() {
             <h2>Grand Total :₹{order.total_amount} </h2>
         </div>
     );
-}
+};
 
 export default OrderDetails;

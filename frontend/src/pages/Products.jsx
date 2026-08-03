@@ -6,6 +6,7 @@ function Products() {
   const [products, setProducts] = useState([]);
   const [search , setSearch] = useState("");
   const [page , setPage] = useState(1);
+  const [sort , setSort] = useState();
 
   const [maxPrice , setMaxPrice] = useState("");
   
@@ -47,6 +48,29 @@ function Products() {
 
     return matchesSearch && matchesPrice;
   });
+
+  const sortedProducts = [...filteredProducts];
+  switch (sort)
+  {
+    case "priceLow":
+      sortedProducts.sort((a,b) => Number(a.price)-Number(b.price));
+      break;
+    
+    case "priceHigh":
+      sortedProducts.sort((a,b) => Number(b.price)-Number(a.price));
+      break;
+    
+    case "nameAsc":
+      sortedProducts.sort((a,b) => a.name.localeComparr(b.name));
+      break;
+
+    case "nameDesc":
+      sortedProducts.sort((a,b) => b.name.localeCompare(a.name));
+      break;
+
+    default:
+      break;
+  }
   
 
   return (
@@ -57,9 +81,16 @@ function Products() {
         <p> No Products found </p>
       )}
       <input type = "number" placeholder="Maximum Price" value = {maxPrice} onChange={(e) => setMaxPrice(e.target.value)} />
-
-      {filteredProducts.map((product) => (
+      <select value={sort} onChange = {(e) => setSort(e.target.value)}>
+        <option value = ""> Default</option>
+        <option value = "priceLow"> Price : Low to High</option>
+        <option value = "priceHigh"> price: High to Low</option>
+        <option value = "nameAsc"> Name : A-Z</option>
+        <option value ="nameDesc"> Name :Z-A</option>
+      </select>
+      {sortedProducts.map((product) => (
         <div key={product.id}>
+          <h3>Showing {sortedProducts.length} Products</h3>
           <img src = {`/images/${product.image_url}`}
                alt = {product.name}
                width = "200"
