@@ -7,6 +7,7 @@ function Products() {
   const [search , setSearch] = useState("");
   const [page , setPage] = useState(1);
   const [sort , setSort] = useState();
+  const [category , setCategory] = useState("All");
 
   const [maxPrice , setMaxPrice] = useState("");
   
@@ -45,8 +46,9 @@ function Products() {
 
 
     const matchesPrice = maxPrice === "" || Number(product.price) <= Number(maxPrice);
+    const matchesCategory =  category === "All" || product.category === category; 
 
-    return matchesSearch && matchesPrice;
+    return matchesSearch && matchesPrice && matchesCategory;
   });
 
   const sortedProducts = [...filteredProducts];
@@ -80,6 +82,7 @@ function Products() {
       {filteredProducts.length === 0 && (
         <p> No Products found </p>
       )}
+
       <input type = "number" placeholder="Maximum Price" value = {maxPrice} onChange={(e) => setMaxPrice(e.target.value)} />
       <select value={sort} onChange = {(e) => setSort(e.target.value)}>
         <option value = ""> Default</option>
@@ -88,6 +91,14 @@ function Products() {
         <option value = "nameAsc"> Name : A-Z</option>
         <option value ="nameDesc"> Name :Z-A</option>
       </select>
+      <select value = {category} onChange={(e) => setCategory(e.target.value)}>
+        <option value = "All">All</option>
+        <option value = "Electronics"> Electronics </option>
+        <option value = "Accessories"> Accessories</option>
+        <option value = "Home" > Home </option>
+        <option value = "Books"> Books</option>
+      </select>
+      <h3>Selected Category : {category}</h3>
       {sortedProducts.map((product) => (
         <div key={product.id}>
           <h3>Showing {sortedProducts.length} Products</h3>
@@ -101,7 +112,7 @@ function Products() {
           </Link>
 
           <p>{product.description}</p>
-
+          <p><strong> Category:</strong> {product.category}</p>
           <h4>₹ {product.price}</h4>
 
           <button onClick={() => addToCart(product.id)}>
