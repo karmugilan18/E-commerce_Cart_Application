@@ -99,9 +99,10 @@ function Products() {
         <option value = "Books"> Books</option>
       </select>
       <h3>Selected Category : {category}</h3>
+      <h3>Showing {sortedProducts.length} Products</h3>
       {sortedProducts.map((product) => (
         <div key={product.id}>
-          <h3>Showing {sortedProducts.length} Products</h3>
+          
           <img src = {`/images/${product.image_url}`}
                alt = {product.name}
                width = "200"

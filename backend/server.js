@@ -39,6 +39,7 @@ app.get("/api/hello" , (req,res) => {
 });
 */
 // file taken 
+const reviewRoutes = require("./routes/reviewRoutes");
 const authRoutes = require("./routes/authRoutes");
 const productRoutes = require("./routes/productRoutes");
 const userRoutes = require("./routes/userRoutes");
@@ -62,7 +63,8 @@ app.use("/api/products",productRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/orders/checkout", chectoutRoutes);
 app.use("/api/admin", adminRoutes);
-app.use(errorHandler);;
+app.use("/api/reviews", reviewRoutes);
+app.use(errorHandler);
 
 
 
