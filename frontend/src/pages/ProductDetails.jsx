@@ -139,7 +139,7 @@ function ProductDetails() {
 
             {reviews.length === 0 ? (
 
-                <p>No Reviews yet.</p>
+                <p>No users reviews yet .. if you have review thought give in a review</p>
 
             ) : (
 
