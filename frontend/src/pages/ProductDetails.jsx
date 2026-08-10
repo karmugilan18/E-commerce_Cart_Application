@@ -135,7 +135,7 @@ function ProductDetails() {
 
             <hr />
 
-            <h2>Customer Reviews</h2>
+            <h2>Total Customer Reviews </h2>
 
             {reviews.length === 0 ? (
 
