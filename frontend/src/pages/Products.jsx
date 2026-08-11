@@ -88,8 +88,8 @@ function Products() {
         <option value = ""> Default</option>
         <option value = "priceLow"> Price : Low to High</option>
         <option value = "priceHigh"> price: High to Low</option>
-        <option value = "nameAsc"> Name : A-Z</option>
-        <option value ="nameDesc"> Name :Z-A</option>
+        <option value = "nameAsc"> product list  : A-Z</option>
+        <option value ="nameDesc"> product list :Z-A</option>
       </select>
       <select value = {category} onChange={(e) => setCategory(e.target.value)}>
         <option value = "All">All</option>
