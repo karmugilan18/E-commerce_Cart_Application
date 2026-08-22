@@ -9,6 +9,9 @@ function ProductDetails() {
     const [product, setProduct] = useState(null);
     const [quantity, setQuantity] = useState(1);
     const [reviews, setReviews] = useState([]);
+    const[rating , setRating] = useState(5);
+    const [comment , setComment ] = useState("");
+
 
     const fetchProduct = async () => {
         try {
@@ -82,6 +85,47 @@ function ProductDetails() {
         }
     };
 
+    const submitReview = async(e) => {
+        e.preventDefault();
+
+        try {
+            const token = localStorage.getItem("token");
+
+            if(!token) {
+                alert("Please Login to Write a review");
+                return ;
+            }
+
+            const res = await API.post("/reviews",
+                {
+                    productId: id, 
+                    rating: rating ,
+                    comment: comment
+                },
+                {
+                    headers:{
+                        Authorization : `Bearer ${token}`
+                    }
+                }
+            );
+            alert(res.data.message);
+
+            setRating(5);
+            setCommit("");
+
+            fetchReviews();
+
+
+        } catch (error) {
+            console.log(error);
+
+            alert(
+                error.response?.data?.message || "Failed to submit review "
+            );
+        }
+
+    };
+
     return (
         <div>
 
@@ -134,6 +178,50 @@ function ProductDetails() {
             </button>
 
             <hr />
+            <h2> write a review </h2>
+
+            <form onSubmit = {submitReview}>
+                <label>
+                    Rating:
+                </label>
+                
+                <select
+                        value={rating}
+                        onChange={(e) => setRating(Number(e.target.value))}
+                >
+                        <option value={5}>5 ⭐</option>
+                        <option value={4}>4 ⭐</option>
+                        <option value={3}>3 ⭐</option>
+                        <option value={2}>2 ⭐</option>
+                        <option value={1}>1 ⭐</option>
+                </select>
+
+                <br/>
+                <br/>
+
+                <label>
+                    Comment:
+
+                </label>
+
+                <br/>
+
+                <textarea value = {comment}
+                          onChange = {(e) => setComment(e.target.value)}
+                          placeholder = "Write Your Review.."
+                          rows = "4"
+                          cols = "40"
+                />
+
+                <br/>
+                <br/>
+
+                <button type = "submit">
+                    SUBMIT REVIEW
+                </button>
+
+            </form>
+            <hr/>
 
             <h2>Total Customer Reviews </h2>
 
